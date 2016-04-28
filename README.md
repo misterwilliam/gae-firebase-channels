@@ -8,7 +8,7 @@ builtins:
 ```
 Requires firebase-token-generator
 ```
-pip install -t lib --install-firebase-token-generator
+pip install -t lib firebase-token-generator
 ```
 If you are using a version of Python installed by Homebrew you will also have to
 temporarily create a file ~/.pydistutils.cfg with following contents. (For more
