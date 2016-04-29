@@ -27,7 +27,6 @@ def fb_get(path, params=None):
 
     url = FIREBASE_URL + path + ".json"
     _params = urllib.urlencode(_params)
-    print url + "?" + _params
     response = urlfetch.fetch(url + "?" + _params, method=urlfetch.GET)
     if response.content != "null":
         return json.loads(response.content)
@@ -40,9 +39,27 @@ def fb_post(path, value):
   response = urlfetch.fetch(url + "?" + params,
                             payload=json.dumps(value),
                             method=urlfetch.POST)
-  print response.content
-  print url + "?" + params
   if response.content != "null":
     return json.loads(response.content)
   else:
     return None
+
+def fb_put(path, value):
+    url = FIREBASE_URL + path + ".json"
+    params = urllib.urlencode({"auth": gae_auth_token})
+    response = urlfetch.fetch(url + "?" + params,
+                              payload=json.dumps(value),
+                              method=urlfetch.PUT)
+    if response.content != "null":
+        return json.loads(response.content)
+    else:
+        return None
+
+def fb_delete(path):
+    url = FIREBASE_URL + path + ".json"
+    params = urllib.urlencode({"auth": gae_auth_token})
+    response = urlfetch.fetch(url + "?" + params, method=urlfetch.DELETE)
+    if response.content != "null":
+        return json.loads(response.content)
+    else:
+        return None

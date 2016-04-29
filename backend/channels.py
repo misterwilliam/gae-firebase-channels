@@ -1,8 +1,19 @@
 import datetime
 
-from backend.firebase import create_token, fb_post, fb_get
+from google.appengine.ext import deferred
+
+from backend.firebase import create_token, fb_delete, fb_get, fb_post, fb_put
 
 DEFAULT_DURATION_MINUTES = 120
+
+# Firebase Channel Schema
+# /channels
+#   - /<channel id>
+#       - /_meta
+#           - /status: Status of the channel. Either "open" or "closed".
+# /clients
+#   - /channel_ids
+#       - /<client id>: Channel id for client.
 
 def create_channel(client_id, duration_minutes=None):
     """Creates channel
@@ -30,7 +41,26 @@ def create_channel(client_id, duration_minutes=None):
                      datetime.timedelta(minutes=duration_minutes)
     client_token = create_token(auth_payload, {"expires": expiration})
 
-    # save_client_channel_id(client_id, channel_id)
-    # duration_secs = int(duration_minutes * 60)
-    # deferred.defer(remove_channel, channel_id, _countdown=duration_secs)
+    save_client_channel_id(client_id, channel_id)
+    duration_secs = int(duration_minutes * 60)
+    deferred.defer(remove_channel, channel_id, _countdown=duration_secs)
     return client_token
+
+def save_client_channel_id(client_id, channel_id):
+    fb_put("/clients/channel_ids/%s" % client_id, channel_id)
+
+def remove_channel(channel_id):
+    fb_delete("/channels/%s" % channel_id)
+    fb_delete("/channel_client_status/%s" % channel_id)
+
+    # Get client_id that matches channel_id from /clients/<client_id>/<channel_id>
+    data = fb_get("/clients/channel_ids", {
+      "orderBy": '"$value"',
+      "equalTo": '"%s"' % channel_id
+    })
+    if len(data.keys()) == 0:
+        # No client_id with that channel_id exists. Could be an old channel.
+        return
+    client_id = data.keys()[0]
+
+    fb_delete("/clients/channel_ids/%s" % client_id)
