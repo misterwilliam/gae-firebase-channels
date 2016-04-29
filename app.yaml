@@ -9,5 +9,7 @@ handlers:
 - url: /
   static_files: frontend/index.html
   upload: frontend/index.html
+- url: /static
+  static_dir: frontend/static/
 - url: /api/channels/.*
   script: backend.api.app
