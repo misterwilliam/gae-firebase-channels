@@ -1,5 +1,8 @@
 function HandleSubmit() {
-  GetChannelTokenAsync('asdf', function(token) {console.log(token)})
+  GetChannelTokenAsync(document.forms["myform"]["client_id"].value,
+                       function(token) {
+                         console.log(token)
+                       });
 }
 
 function GetChannelTokenAsync(channelId, callback) {
