@@ -1,6 +1,6 @@
 import webapp2
 
-from backend.channels import create_channel
+from backend.channels import create_channel, send_message
 
 class ChannelHandler(webapp2.RequestHandler):
     """
@@ -43,7 +43,8 @@ class ChannelMessageHandler(webapp2.RequestHandler):
         """
         if "message" in self.request.params:
             message = self.request.params["message"]
-            print(channelId, message)
+            send_message(channelId, message)
+
 
 app = webapp2.WSGIApplication([
     webapp2.Route('/api/channels/<channelId>', ChannelHandler),

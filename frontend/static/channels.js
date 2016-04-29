@@ -53,7 +53,7 @@ Socket.prototype._connect = function() {
                if (snapshot.exists()) {
                  this.onmessage(snapshot.val());
                }
-            });
+            }.bind(this));
     }
   }.bind(this))
 }

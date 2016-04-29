@@ -12,7 +12,6 @@ with open('./secrets.json') as secrets_data:
 auth_payload = {"uid": "gae-instance", "provider": "gae"}
 gae_auth_token = fb_token_generator.create_token(
     secrets["firebaseSecret"], auth_payload)
-print secrets["firebaseSecret"], gae_auth_token
 
 FIREBASE_URL = "https://fb-channel.firebaseio.com"
 
