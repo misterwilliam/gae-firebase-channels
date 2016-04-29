@@ -1,5 +1,6 @@
 import webapp2
 
+from backend.channels import create_channel
 
 class ChannelHandler(webapp2.RequestHandler):
     """
@@ -14,8 +15,9 @@ class ChannelHandler(webapp2.RequestHandler):
         self.handleRequest(channelId)
 
     def handleRequest(self, channelId):
+        token = create_channel(channelId)
         self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write("fake token")
+        self.response.write(token)
 
 
 class ChannelMessageHandler(webapp2.RequestHandler):

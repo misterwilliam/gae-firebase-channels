@@ -1,6 +1,14 @@
 # gae-firebase-channels
 Example project that illustrates how to emulate App Engine Channels with Firebase.
 
+## Configuration
+Store your Firebase secret in secrets.json:
+```
+{
+  "firebaseSecret": "<Your Firebase secret>"
+}
+```
+
 Requires deferred enabled. (Inside of app.yaml)
 ```
 builtins:
@@ -16,4 +24,12 @@ details see)[https://github.com/Homebrew/brew/blob/master/share/doc/homebrew/Hom
 ```
 [install]
 prefix=
+```
+
+You will also have to add lib to appengine_cfg.py
+```
+from google.appengine.ext import vendor
+
+# Add any libraries installed in the "lib" folder.
+vendor.add('lib')
 ```
