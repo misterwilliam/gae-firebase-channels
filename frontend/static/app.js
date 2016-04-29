@@ -1,7 +1,21 @@
 function HandleSubmit() {
   GetChannelTokenAsync(document.forms["myform"]["client_id"].value,
                        function(token) {
-                         console.log(token)
+                         var channel = new Channel(token);
+                         channel.open({
+                           onopen: function() {
+                             console.log("Channel opened");
+                           },
+                           onmessage: function(message) {
+                             console.log(message);
+                           },
+                           onclose: function() {
+                             console.log("Channel closed");
+                           },
+                           onerror: function(error) {
+                             console.log("Channel error", error);
+                           }
+                         })
                        });
 }
 
