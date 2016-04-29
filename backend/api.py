@@ -15,7 +15,7 @@ class ChannelHandler(webapp2.RequestHandler):
         self.handleRequest(channelId)
 
     def handleRequest(self, channelId):
-        token = create_channel(channelId)
+        token = create_channel(channelId, float(self.request.params["duration"]))
         self.response.headers['Content-Type'] = 'text/plain'
         self.response.write(token)
 
