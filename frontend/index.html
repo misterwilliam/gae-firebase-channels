@@ -7,12 +7,22 @@
     <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
   </head>
   <body>
-    <form name="myform">
+    <h1>Channel Form</h1>
+    <form name="channel_form">
       <label>Client id</label>
       <input type="text" value="default" name="client_id"/>
       <label>Duration minutes</label>
       <input type="text" value="0.08" name="duration"/>
-      <input type="button" value="Submit" onclick="HandleSubmit()">
+      <input type="button" value="Submit" onclick="HandleSubmitChannelForm()">
+    </form>
+
+    <h1>Message Form</h1>
+    <form name="message_form">
+      <label>Client id</label>
+      <input type="text" value="default" name="client_id"/>
+      <label>Duration minutes</label>
+      <input type="text" value="Sample message" name="message"/>
+      <input type="button" value="Submit" onclick="HandleSubmitMessageForm()">
     </form>
   </body>
 </html>

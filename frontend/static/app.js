@@ -1,6 +1,6 @@
-function HandleSubmit() {
-  GetChannelTokenAsync(document.forms["myform"]["client_id"].value,
-                       document.forms["myform"]["duration"].value,
+function HandleSubmitChannelForm() {
+  GetChannelTokenAsync(document.forms["channel_form"]["client_id"].value,
+                       document.forms["channel_form"]["duration"].value,
                        function(token) {
                          var channel = new Channel(token);
                          channel.open({
@@ -27,4 +27,14 @@ function GetChannelTokenAsync(channelId, duration, callback) {
   });
   req.open("GET", "/api/channels/" + channelId + "?duration=" + duration.toString());
   req.send();
+}
+
+function HandleSubmitMessageForm() {
+  var channelId = document.forms["message_form"]["client_id"].value;
+  var message = document.forms["message_form"]["message"].value;
+  var req = new XMLHttpRequest();
+  req.open("POST", "/api/channels/" + channelId + "/message");
+  var formData = new FormData();
+  formData.append("message", message);
+  req.send(formData);
 }
