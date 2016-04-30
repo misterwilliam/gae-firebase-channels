@@ -43,7 +43,7 @@ def create_channel(client_id, duration_minutes=None):
 
     save_client_channel_id(client_id, channel_id)
     duration_secs = int(duration_minutes * 60)
-    deferred.defer(remove_channel, channel_id, _countdown=duration_secs)
+    deferred.defer(close_channel, channel_id, _countdown=duration_secs)
     return client_token
 
 def send_message(client_id, message):
@@ -53,6 +53,11 @@ def send_message(client_id, message):
 
 def save_client_channel_id(client_id, channel_id):
     fb_put("/clients/channel_ids/%s" % client_id, channel_id)
+
+def close_channel(channel_id):
+    result = fb_put("/channels/" + channel_id + "/_meta/status",
+                    "closed");
+    deferred.defer(remove_channel, channel_id, _countdown=30)
 
 def remove_channel(channel_id):
     fb_delete("/channels/%s" % channel_id)
