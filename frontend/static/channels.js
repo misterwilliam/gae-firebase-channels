@@ -23,7 +23,7 @@ Socket.prototype._connect = function() {
   const fbRef = new Firebase(FIREBASE_URL);
   fbRef.authWithCustomToken(this.token, function(error, authData) {
     if (error != null) {
-      // TODO: Handle auth error
+      this.onerror(error);
     } else {
       // Configure presence events
       const presenceRef = fbRef.child("channel_client_status")
@@ -49,11 +49,11 @@ Socket.prototype._connect = function() {
            .child(authData.auth.channel_id)
            .child("messages")
            .on('child_added',
-            function(snapshot, prevChildKey) {
-               if (snapshot.exists()) {
-                 this.onmessage(snapshot.val());
-               }
-            }.bind(this));
+              function(snapshot, prevChildKey) {
+                if (snapshot.exists()) {
+                  this.onmessage(snapshot.val());
+                }
+              }.bind(this));
     }
   }.bind(this))
 }
