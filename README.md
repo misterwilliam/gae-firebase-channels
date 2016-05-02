@@ -1,5 +1,8 @@
 # gae-firebase-channels
 Example project that illustrates how to emulate App Engine Channels with Firebase.
+The project has three parts: (1) the frontend javascript that replaces the code
+that runs in the browser (2) the backend code that replaces the backend Channels
+API, and (3) firebase security rules.
 
 ## Configuration
 Store your Firebase secret in secrets.json:
