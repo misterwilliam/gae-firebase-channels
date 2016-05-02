@@ -1,3 +1,4 @@
+// Set this to your own Firebase project.
 var FIREBASE_URL = "https://fb-channel.firebaseio.com/";
 
 function Channel(token) {
