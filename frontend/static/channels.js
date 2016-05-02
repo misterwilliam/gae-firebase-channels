@@ -65,6 +65,7 @@ Socket.prototype._connect = function() {
       var didDisconnect = this._disconnect();
       if (didDisconnect) {
         this.onclose();
+        // If successfully disconnected, remove this authEventHandler.
         fbRef.offAuth(this.authEventHandler);
       }
     }
@@ -74,12 +75,14 @@ Socket.prototype._connect = function() {
 
 Socket.prototype._disconnect = function() {
   var didDisconnect = false;
+  // If registered for channel status events, unregister
   if (this.channelStatusRef != null && this.valueEventHandler != null) {
     this.channelStatusRef.off('value', this.valueEventHandler);
     this.channelStatusRef = null;
     this.valueEventHandler = null;
     didDisconnect = true;
   }
+  // If registered for message events, unregister
   if (this.messagesRef != null && this.childEventHandler != null) {
     this.messagesRef.off('child_added', this.childEventHandler);
     this.messagesRef = null;
