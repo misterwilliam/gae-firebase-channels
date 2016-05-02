@@ -4,6 +4,16 @@ The project has three parts: (1) the frontend javascript that replaces the code
 that runs in the browser (2) the backend code that replaces the backend Channels
 API, and (3) Firebase security rules.
 
+## Overview
+*backend/channels.py*
+Emulates the Channels server side API using Firebase.
+
+*frontend/channels.js*
+Emulates the Channels frontend API using Firebase.
+
+*firebase/security-rules.json*
+Security rules for the Firebase project.
+
 ## Configuration
 Store your Firebase secret in secrets.json:
 ```
