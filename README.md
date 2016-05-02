@@ -12,7 +12,10 @@ Store your Firebase secret in secrets.json:
 }
 ```
 
-Requires deferred enabled. (Inside of app.yaml)
+Copy security rules in firebase/security-rules.json to "Security & rules" tab in
+your Firebase project.
+
+Requires deferred enabled. (Inside of backend/app.yaml)
 ```
 builtins:
 - deferred: on
