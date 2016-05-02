@@ -1,0 +1,34 @@
+{
+    "rules": {
+      ".read": false,
+      ".write": false,
+      "channels": {
+        // Give GAE App ability to read/write channels
+        ".read": "auth.uid == 'gae-instance' && auth.provider == 'gae'",
+        ".write": "auth.uid == 'gae-instance' && auth.provider == 'gae'",
+        "$channelId": {
+          // Require auth token for channel
+          ".read": "auth.channel_id == $channelId && auth.provider == 'gae'",
+          ".write": "auth.channel_id == $channelId && auth.provider == 'gae'"
+        }
+      },
+      "channel_client_status": {
+        // Give GAE App ability to read/write channels
+        ".read": "auth.uid == 'gae-instance' && auth.provider == 'gae'",
+        ".write": "auth.uid == 'gae-instance' && auth.provider == 'gae'",
+        "$channelId": {
+          // Require auth token for channel
+          ".read": "auth.channel_id == $channelId && auth.provider == 'gae'",
+          ".write": "auth.channel_id == $channelId && auth.provider == 'gae'"
+        }
+      },
+      "clients": {
+        // Only allow GAE app instance to read / write client to channel id mapping
+        ".read": "auth.uid == 'gae-instance' && auth.provider == 'gae'",
+        ".write": "auth.uid == 'gae-instance' && auth.provider == 'gae'",
+        "channel_ids": {
+          ".indexOn": ".value"
+        }
+      }
+    }
+}
