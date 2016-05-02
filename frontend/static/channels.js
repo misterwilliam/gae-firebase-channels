@@ -55,5 +55,5 @@ Socket.prototype._connect = function() {
                 }
               }.bind(this));
     }
-  }.bind(this))
+  }.bind(this));
 }
