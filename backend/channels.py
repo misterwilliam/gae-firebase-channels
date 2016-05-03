@@ -41,18 +41,16 @@ def create_channel(client_id, duration_minutes=None):
                      datetime.timedelta(minutes=duration_minutes)
     client_token = create_token(auth_payload, {"expires": expiration})
 
-    save_client_channel_id(client_id, channel_id)
+    # Save client channel id
+    fb_put("/clients/channel_ids/%s" % client_id, channel_id)
     duration_secs = int(duration_minutes * 60)
     deferred.defer(close_channel, channel_id, _countdown=duration_secs)
     return client_token
 
 def send_message(client_id, message):
-    channel_id = get_channel_id(client_id)
+    channel_id = fb_get("/clients/channel_ids/%s" % client_id)
     if channel_id is not None:
         fb_post("/channels/%s/messages" % channel_id, message)
-
-def save_client_channel_id(client_id, channel_id):
-    fb_put("/clients/channel_ids/%s" % client_id, channel_id)
 
 def close_channel(channel_id):
     result = fb_put("/channels/" + channel_id + "/_meta/status",
@@ -74,6 +72,3 @@ def remove_channel(channel_id):
     client_id = data.keys()[0]
 
     fb_delete("/clients/channel_ids/%s" % client_id)
-
-def get_channel_id(client_id):
-    return fb_get("/clients/channel_ids/%s" % client_id)
