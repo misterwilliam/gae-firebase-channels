@@ -19,6 +19,7 @@ def create_token(auth_payload, options=None):
   return fb_token_generator.create_token(
     secrets["firebaseSecret"], auth_payload, options)
 
+# GET - Read Firebase data
 def fb_get(path, params=None):
     _params = {"auth": gae_auth_token}
     if params is not None:
@@ -32,17 +33,7 @@ def fb_get(path, params=None):
     else:
         return None
 
-def fb_post(path, value):
-  url = FIREBASE_URL + path + ".json"
-  params = urllib.urlencode({"auth": gae_auth_token})
-  response = urlfetch.fetch(url + "?" + params,
-                            payload=json.dumps(value),
-                            method=urlfetch.POST)
-  if response.content != "null":
-    return json.loads(response.content)
-  else:
-    return None
-
+# PUT - Writing data to Firebase
 def fb_put(path, value):
     url = FIREBASE_URL + path + ".json"
     params = urllib.urlencode({"auth": gae_auth_token})
@@ -54,6 +45,19 @@ def fb_put(path, value):
     else:
         return None
 
+# POST - Pushing data to Firebase
+def fb_post(path, value):
+  url = FIREBASE_URL + path + ".json"
+  params = urllib.urlencode({"auth": gae_auth_token})
+  response = urlfetch.fetch(url + "?" + params,
+                            payload=json.dumps(value),
+                            method=urlfetch.POST)
+  if response.content != "null":
+    return json.loads(response.content)
+  else:
+    return None
+
+# DELETE - Removing data from Firebase
 def fb_delete(path):
     url = FIREBASE_URL + path + ".json"
     params = urllib.urlencode({"auth": gae_auth_token})
