@@ -48,6 +48,7 @@ def create_channel(client_id, duration_minutes=None):
     return client_token
 
 def send_message(client_id, message):
+    # Retrieve channel id
     channel_id = fb_get("/clients/channel_ids/%s" % client_id)
     if channel_id is not None:
         fb_post("/channels/%s/messages" % channel_id, message)
