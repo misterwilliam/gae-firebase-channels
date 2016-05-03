@@ -12,6 +12,14 @@
           ".write": "auth.channel_id == $channelId && auth.provider == 'gae'"
         }
       },
+      "clients": {
+        // Give GAE App ability to read / write client to channel id mapping
+        ".read": "auth.uid == 'gae-instance' && auth.provider == 'gae'",
+        ".write": "auth.uid == 'gae-instance' && auth.provider == 'gae'",
+        "channel_ids": {
+          ".indexOn": ".value"
+        }
+      },
       "channel_client_status": {
         // Give GAE App ability to read/write channels
         ".read": "auth.uid == 'gae-instance' && auth.provider == 'gae'",
@@ -20,14 +28,6 @@
           // Require auth token for channel
           ".read": "auth.channel_id == $channelId && auth.provider == 'gae'",
           ".write": "auth.channel_id == $channelId && auth.provider == 'gae'"
-        }
-      },
-      "clients": {
-        // Only allow GAE app instance to read / write client to channel id mapping
-        ".read": "auth.uid == 'gae-instance' && auth.provider == 'gae'",
-        ".write": "auth.uid == 'gae-instance' && auth.provider == 'gae'",
-        "channel_ids": {
-          ".indexOn": ".value"
         }
       }
     }
