@@ -75,10 +75,10 @@ Socket.prototype._connect = function() {
 }
 
 Socket.prototype.close = function() {
-  if (this.presenceRef != null) {
+  if (this.prenceRef != null) {
     this.presenceRef.set("disconnected");
-    this.presenceRef.cancel();
   }
+  this._disconnect();
 }
 
 Socket.prototype._disconnect = function() {
@@ -96,6 +96,10 @@ Socket.prototype._disconnect = function() {
     this.messagesRef = null;
     this.childEventHandler = null;
     didDisconnect = true;
+  }
+  if (this.presenceRef != null) {
+    this.presenceRef.cancel();
+    this.presenceRef = null;
   }
   return didDisconnect;
 }
