@@ -63,6 +63,7 @@ Socket.prototype._connect = function() {
 
   this.authEventHandler = function(authData) {
     if (authData == null) {
+      // authData is null when token expires
       var didDisconnect = this._disconnect();
       if (didDisconnect) {
         this.onclose();
