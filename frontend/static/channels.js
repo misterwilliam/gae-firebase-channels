@@ -28,10 +28,10 @@ Socket.prototype._connect = function() {
       this.onerror(error);
     } else {
       // Configure presence events
-      const presenceRef = fbRef.child("channel_client_status")
+      this.presenceRef = fbRef.child("channel_client_status")
                                .child(authData.auth.channel_id);
-      presenceRef.set("connected");
-      presenceRef.onDisconnect().set("disconnected");
+      this.presenceRef.set("connected");
+      this.presenceRef.onDisconnect().set("disconnected");
       // Subscribe to channel status events
       this.channelStatusRef = fbRef.child("channels")
                                    .child(authData.auth.channel_id)
@@ -41,7 +41,6 @@ Socket.prototype._connect = function() {
           if (snapshot.val() == "open") {
             this.onopen();
           } else if (snapshot.val() == "closed") {
-            console.log("cleaned up");
             this.onclose();
             this._disconnect();
           }
@@ -73,6 +72,13 @@ Socket.prototype._connect = function() {
     }
   }.bind(this);
   fbRef.onAuth(this.authEventHandler);
+}
+
+Socket.prototype.close = function() {
+  if (this.presenceRef != null) {
+    this.presenceRef.set("disconnected");
+    this.presenceRef.cancel();
+  }
 }
 
 Socket.prototype._disconnect = function() {

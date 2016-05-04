@@ -1,9 +1,12 @@
+// Global
+socket = null;
+
 function HandleSubmitChannelForm() {
   GetChannelTokenAsync(document.forms["channel_form"]["client_id"].value,
                        document.forms["channel_form"]["duration"].value,
                        function(token) {
                          var channel = new Channel(token);
-                         channel.open({
+                         socket = channel.open({
                            onopen: function() {
                              console.log("Channel opened");
                            },
@@ -37,4 +40,10 @@ function HandleSubmitMessageForm() {
   var formData = new FormData();
   formData.append("message", message);
   req.send(formData);
+}
+
+function HandleCloseChannel() {
+  if (socket != null) {
+    socket.close();
+  }
 }
