@@ -1,6 +1,6 @@
 import webapp2
 
-from backend.channels import create_channel, send_message
+from backend.channels import create_channel, send_message, clear_all_channels
 
 class ChannelHandler(webapp2.RequestHandler):
     """
@@ -45,6 +45,7 @@ class ChannelMessageHandler(webapp2.RequestHandler):
             message = self.request.params["message"]
             send_message(channelId, message)
 
+clear_all_channels()
 
 app = webapp2.WSGIApplication([
     webapp2.Route('/api/channels/<channelId>', ChannelHandler),

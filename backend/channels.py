@@ -14,9 +14,24 @@ DEFAULT_DURATION_MINUTES = 120
 # /clients
 #   - /channel_ids
 #       - /<client id>: Channel id for client.
+# /channel_client_status
+#   - /<channel id>: Connection status. Either "connected" or "disconnected".
+
+def clear_all_channels():
+    """
+    Clear all channel related data on Firebase.
+
+    Called at server init to clear up any state that maybe left over from an
+    improper server shutdown.
+    """
+    print "deleting"
+    fb_delete("/channels")
+    fb_delete("/clients")
+    fb_delete("/channel_client_status")
 
 def create_channel(client_id, duration_minutes=None):
-    """Creates channel
+    """
+    Creates channel
     If called multiple times with same client_id, just returns a new token.
     """
     # TODO: Check what the Channel API does when called multiple times before
@@ -33,6 +48,10 @@ def create_channel(client_id, duration_minutes=None):
         print "Error in creating channel: %s" % result["error"]
         return
     channel_id = result["name"]
+
+    # Save client channel id
+    fb_put("/clients/channel_ids/%s" % client_id, channel_id)
+
     auth_payload = {
         "uid": "unused",
         "channel_id": channel_id,
@@ -42,8 +61,7 @@ def create_channel(client_id, duration_minutes=None):
                      datetime.timedelta(minutes=duration_minutes)
     client_token = create_token(auth_payload, {"expires": expiration})
 
-    # Save client channel id
-    fb_put("/clients/channel_ids/%s" % client_id, channel_id)
+    # Clean up channels after it expires
     duration_secs = int(duration_minutes * 60)
     deferred.defer(close_channel, channel_id, _countdown=duration_secs)
     return client_token
