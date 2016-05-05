@@ -21,11 +21,11 @@
         }
       },
       "channel_client_status": {
-        // Give GAE App ability to read/write channels
+        // Give GAE App ability to read/write channels client status
         ".read": "auth.uid == 'gae-instance' && auth.provider == 'gae'",
         ".write": "auth.uid == 'gae-instance' && auth.provider == 'gae'",
         "$channelId": {
-          // Require auth token for channel
+          // Require auth token for channel client status
           ".read": "auth.channel_id == $channelId && auth.provider == 'gae'",
           ".write": "auth.channel_id == $channelId && auth.provider == 'gae'"
         }
