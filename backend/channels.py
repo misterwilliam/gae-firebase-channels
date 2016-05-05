@@ -81,7 +81,7 @@ def remove_channel(channel_id):
     fb_delete("/channels/%s" % channel_id)
     fb_delete("/channel_client_status/%s" % channel_id)
 
-    # Get client_id that matches channel_id from /clients/<client_id>/<channel_id>
+    # Get client_id that matches channel_id from /clients/channel_ids/<client_id>/<channel_id>
     data = fb_get("/clients/channel_ids", {
       "orderBy": '"$value"',
       "equalTo": '"%s"' % channel_id
