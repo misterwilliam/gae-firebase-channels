@@ -40,7 +40,7 @@ def create_channel(client_id, duration_minutes=None):
     # the token has expired. (Does it close the channel?)
     if duration_minutes is None:
         duration_minutes = DEFAULT_DURATION_MINUTES
-    # Push new channel to Firebase and get the Firebase push key
+    # Initialize /channels/<channel ID>, use Firebase push key as channel ID
     result = fb_post("/channels/", {
       "_meta": {
         "status": "open"
