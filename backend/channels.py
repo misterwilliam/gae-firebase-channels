@@ -11,6 +11,8 @@ DEFAULT_DURATION_MINUTES = 120
 #   - /<channel id>
 #       - /_meta
 #           - /status: Status of the channel. Either "open" or "closed".
+#       - /messages
+#           - /<message id>: A message
 # /clients
 #   - /channel_ids
 #       - /<client id>: Channel id for client.
