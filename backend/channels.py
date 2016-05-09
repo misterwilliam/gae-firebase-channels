@@ -76,11 +76,14 @@ def send_message(client_id, message):
         fb_post("/channels/%s/messages" % channel_id, message)
 
 def close_channel(channel_id):
+    # Sets /channels/<channel_id>/_meta/status to "closed", and schedules a
+    # deferred task to remove_channel.
     result = fb_put("/channels/" + channel_id + "/_meta/status",
                     "closed");
     deferred.defer(remove_channel, channel_id, _countdown=30)
 
 def remove_channel(channel_id):
+    # Deletes all the data associated with channel_id from Firebase.
     fb_delete("/channels/%s" % channel_id)
     fb_delete("/channel_client_status/%s" % channel_id)
 
