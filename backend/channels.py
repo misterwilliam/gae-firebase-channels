@@ -54,6 +54,7 @@ def create_channel(client_id, duration_minutes=None):
     # Save client channel id
     fb_put("/clients/channel_ids/%s" % client_id, channel_id)
 
+    # Create token
     auth_payload = {
         "uid": "unused",
         "channel_id": channel_id,
