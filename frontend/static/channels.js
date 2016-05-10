@@ -32,6 +32,7 @@ Socket.prototype._connect = function() {
                                .child(authData.auth.channel_id);
       this.presenceRef.set("connected");
       this.presenceRef.onDisconnect().set("disconnected");
+
       // Subscribe to channel status events
       this.channelStatusRef = fbRef.child("channels")
                                    .child(authData.auth.channel_id)
@@ -47,6 +48,7 @@ Socket.prototype._connect = function() {
         }
       }.bind(this);
       this.channelStatusRef.on('value', this.valueEventHandler);
+
       // Subscribe to messages
       this.messagesRef = fbRef.child("channels")
                               .child(authData.auth.channel_id)
